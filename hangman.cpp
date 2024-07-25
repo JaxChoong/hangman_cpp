@@ -43,22 +43,29 @@ std::vector<char> wordIntoBlankArray(std::vector<char> wordArray)
 
 bool runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray)
 {
-  std::cout << "Guess a letter!: ";
-  char userInput;
-  std::cin >> userInput;
+  while (true)
+  {
+    // get user input
+    std::cout << "Guess a letter!: ";
+    char userInput;
+    std::cin >> userInput;
 
-  for (int i=0;i<wordArray.size();i++)      // loops through word array to find a match
-  {
-    if (wordArray[i] == userInput)
+    for (int i=0;i<wordArray.size();i++)      // loops through word array to find a match
     {
-      blankArray[i] = userInput;
+      if (wordArray[i] == userInput)
+      {
+        blankArray[i] = userInput;
+      }
     }
-  }
-  for (char c :blankArray)
-  {
-    std::cout << c << std::endl;
-  }
-  return true;
+
+    // create a string for the current guesses, using blankArray
+    std::string currentGuess;
+    for (char c :blankArray)
+    {
+      currentGuess.push_back(c);
+    }
+    std::cout << currentGuess << std::endl;
+    }
 }
 
 int main()
@@ -66,10 +73,8 @@ int main()
   std::string word{randomizeWord()};                         // choose the random word
   std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
-  while (true)
-  {
-    std::cout << word << std::endl;
-    runGame(word,wordArray,blankArray);
-  }
+  std::cout << word << std::endl;
+  runGame(word,wordArray,blankArray);                       // main game loop
+
   return 0;
 }
