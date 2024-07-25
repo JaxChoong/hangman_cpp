@@ -17,6 +17,15 @@ std::vector<std::string> words{
   "airplane"
 };
 
+std::vector<std::string> graphic
+{
+  "_____\n",
+  "  |  \n",
+  "  O  \n",
+  " /","|","\\ \n",
+  " / ","\\ \n"
+};
+
 int lives{8};
 
 std::string randomizeWord()
@@ -57,6 +66,7 @@ std::vector<char> matchWordToArray(std::vector<char> wordArray,std::vector<char>
   if (!foundMatch)
   {
     --lives;
+    graphic.pop_back();
   }
   return blankArray;
 }
@@ -86,9 +96,17 @@ bool checkGameEnd(std::vector<char> wordArray, std::vector<char> blankArray,std:
   }
   return true;
 }
+void drawGraphic()
+{
+  for (std::string str: graphic)
+  {
+    std::cout << str;
+  }
+}
 
 void runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray,bool gameActive)
 {
+  drawGraphic();
   std::cout << blankArrayToString(blankArray) << std::endl;
   while (gameActive)
   {
@@ -109,6 +127,7 @@ void runGame(std::string word, std::vector<char> wordArray, std::vector<char> bl
     }
     // create a string for the current guesses, using blankArray
     std::string currentGuess{blankArrayToString(blankArray)};
+    drawGraphic();
     std::cout << std::endl << currentGuess << std::endl;
     std::cout << "Guesses left: " << std::to_string(lives) << std::endl;
   }
@@ -120,6 +139,7 @@ int main()
   std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
   bool gameActive{true};
+
   runGame(word,wordArray,blankArray,gameActive);                       // main game loop
 
   return 0;
