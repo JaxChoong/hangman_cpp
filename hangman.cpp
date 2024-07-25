@@ -4,7 +4,7 @@
 #include <random>
 
 // array of sample words
-std::vector<std::string> words = {
+std::vector<std::string> words{
   "elephant",
   "guitar",
   "pineapple",
@@ -32,8 +32,13 @@ std::string randomizeWord()
 
 int main()
 {
-  std::string word{randomizeWord()};   // choose the random word
+  std::string word{randomizeWord()};                    // choose the random word
+  std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::cout << word << std::endl;
-
+  for (char c : wordArray)
+  {
+    std::cout << c << std::endl;
+  }
+  
   return 0;
 }
