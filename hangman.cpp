@@ -17,6 +17,8 @@ std::vector<std::string> words{
   "airplane"
 };
 
+int lives{8};
+
 std::string randomizeWord()
 {
   //create a randomize device to seed the random num generator
@@ -43,12 +45,18 @@ std::vector<char> wordIntoBlankArray(std::vector<char> wordArray)
 
 std::vector<char> matchWordToArray(std::vector<char> wordArray,std::vector<char> blankArray, char userInput)
 {
+  bool foundMatch{false};
   for (int i=0;i<wordArray.size();i++)      // loops through word array to find a match
   {
     if (wordArray[i] == userInput)
     {
       blankArray[i] = userInput;
+      foundMatch = true;
     }
+  }
+  if (!foundMatch)
+  {
+    --lives;
   }
   return blankArray;
 }
@@ -62,6 +70,7 @@ std::string blankArrayToString(std::vector<char> blankArray)
   }
   return currentGuess;
 }
+
 bool checkGameEnd(std::vector<char> wordArray, std::vector<char> blankArray,std::string word)
 {
   // check game end or not
@@ -70,8 +79,14 @@ bool checkGameEnd(std::vector<char> wordArray, std::vector<char> blankArray,std:
     std::cout << "You Win! The word is: " << word << std::endl;
     return false;
   }
+  else if (lives == 0)
+  {
+    std::cout << "You Lost! The word is: " << word << std::endl;
+    return false;
+  }
   return true;
 }
+
 void runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray,bool gameActive)
 {
   while (gameActive)
@@ -90,6 +105,7 @@ void runGame(std::string word, std::vector<char> wordArray, std::vector<char> bl
     std::string currentGuess{blankArrayToString(blankArray)};
     std::cout << currentGuess << std::endl;
     gameActive = checkGameEnd(wordArray,blankArray,word);
+    std::cout << std::to_string(lives) << std::endl;
   }
 }
 
@@ -99,6 +115,7 @@ int main()
   std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
   bool gameActive{true};
+
   runGame(word,wordArray,blankArray,gameActive);                       // main game loop
 
   return 0;
