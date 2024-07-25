@@ -41,29 +41,44 @@ std::vector<char> wordIntoBlankArray(std::vector<char> wordArray)
   return blankArray;
 }
 
-bool runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray)
+std::vector<char> matchWordToArray(std::vector<char> wordArray,std::vector<char> blankArray, char userInput)
+{
+  for (int i=0;i<wordArray.size();i++)      // loops through word array to find a match
+  {
+    if (wordArray[i] == userInput)
+    {
+      blankArray[i] = userInput;
+    }
+  }
+  return blankArray;
+}
+
+std::string blankArrayToString(std::vector<char> blankArray)
+{
+  std::string currentGuess;
+  for (char c :blankArray)
+  {
+    currentGuess.push_back(c);      // adds current character to the end of string
+  }
+  return currentGuess;
+}
+
+void runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray)
 {
   while (true)
   {
+    std::cout << word << std::endl;
+
     // get user input
     std::cout << "Guess a letter!: ";
     char userInput;
     std::cin >> userInput;
-
-    for (int i=0;i<wordArray.size();i++)      // loops through word array to find a match
-    {
-      if (wordArray[i] == userInput)
-      {
-        blankArray[i] = userInput;
-      }
-    }
+    
+    // go through wordArray to match userInput, returns blankArray with replaced letters
+    blankArray = matchWordToArray(wordArray,blankArray,userInput);
 
     // create a string for the current guesses, using blankArray
-    std::string currentGuess;
-    for (char c :blankArray)
-    {
-      currentGuess.push_back(c);
-    }
+    std::string currentGuess{blankArrayToString(blankArray)};
     std::cout << currentGuess << std::endl;
     }
 }
@@ -73,7 +88,7 @@ int main()
   std::string word{randomizeWord()};                         // choose the random word
   std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
-  std::cout << word << std::endl;
+
   runGame(word,wordArray,blankArray);                       // main game loop
 
   return 0;
