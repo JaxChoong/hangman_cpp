@@ -101,13 +101,15 @@ void runGame(std::string word, std::vector<char> wordArray, std::vector<char> bl
     blankArray = matchWordToArray(wordArray,blankArray,userInput);
 
     gameActive = checkGameEnd(wordArray,blankArray,word);
+
     if (!gameActive)
     {
+      // if game ended, then dont bother printing to terminal
       return;
     }
     // create a string for the current guesses, using blankArray
     std::string currentGuess{blankArrayToString(blankArray)};
-    std::cout << currentGuess << std::endl;
+    std::cout << std::endl << currentGuess << std::endl;
     std::cout << "Guesses left: " << std::to_string(lives) << std::endl;
   }
 }
