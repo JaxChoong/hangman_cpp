@@ -30,15 +30,22 @@ std::string randomizeWord()
   return wordChosen;
 }
 
-int main()
+std::vector<char> wordIntoBlankArray(std::vector<char> wordArray)
 {
-  std::string word{randomizeWord()};                    // choose the random word
-  std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
-  std::cout << word << std::endl;
+  std::vector<char> blankArray;
   for (char c : wordArray)
   {
-    std::cout << c << std::endl;
+    blankArray.push_back('_');        // creates an array with underscores as placeholders
   }
-  
+
+  return blankArray;
+}
+
+int main()
+{
+  std::string word{randomizeWord()};                         // choose the random word
+  std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
+  std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
+
   return 0;
 }
