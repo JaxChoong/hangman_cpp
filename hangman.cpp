@@ -89,10 +89,9 @@ bool checkGameEnd(std::vector<char> wordArray, std::vector<char> blankArray,std:
 
 void runGame(std::string word, std::vector<char> wordArray, std::vector<char> blankArray,bool gameActive)
 {
+  std::cout << blankArrayToString(blankArray) << std::endl;
   while (gameActive)
   {
-    std::cout << word << std::endl;
-
     // get user input
     std::cout << "Guess a letter!: ";
     char userInput;
@@ -101,11 +100,15 @@ void runGame(std::string word, std::vector<char> wordArray, std::vector<char> bl
     // go through wordArray to match userInput, returns blankArray with replaced letters
     blankArray = matchWordToArray(wordArray,blankArray,userInput);
 
+    gameActive = checkGameEnd(wordArray,blankArray,word);
+    if (!gameActive)
+    {
+      return;
+    }
     // create a string for the current guesses, using blankArray
     std::string currentGuess{blankArrayToString(blankArray)};
     std::cout << currentGuess << std::endl;
-    gameActive = checkGameEnd(wordArray,blankArray,word);
-    std::cout << std::to_string(lives) << std::endl;
+    std::cout << "Guesses left: " << std::to_string(lives) << std::endl;
   }
 }
 
@@ -115,7 +118,6 @@ int main()
   std::vector<char> wordArray(word.begin(), word.end());     // turn words into an array of characters
   std::vector<char> blankArray{wordIntoBlankArray(wordArray)};
   bool gameActive{true};
-
   runGame(word,wordArray,blankArray,gameActive);                       // main game loop
 
   return 0;
